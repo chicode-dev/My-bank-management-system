@@ -23,16 +23,19 @@ struct{
 }add;
 
 	void new_account(){
+		FILE *ptr;
+		ptr = fopen("record.txt","a+");
+
 		printf("enter name: ");
-		scanf("%[^\n]s",add.name);
+		scanf("%s",add.name);
 		printf("enter age: ");
 		scanf("%d",&add.age);
 		printf("enter address: ");
-		scanf("%[^\n]s",add.address);
+		scanf("%s",add.address);
 		printf("enter citizenship: ");
-		scanf("%[^\n]s",add.citizenship);
+		scanf("%s",add.citizenship);
 		printf("enter account type: ");
-		scanf("%[^\n]s",add.account_type);
+		scanf("%s",add.account_type);
 		printf("enter account number: ");
 		scanf("%d",&add.account_number);
 		printf("enter phone number: ");
@@ -40,8 +43,8 @@ struct{
 		printf("enter amt: ");
 		scanf("%f",&add.amt);
 
-		printf("\nAccount details:%s %d %s %s %s %d %d %f",add.name,add.age,add.address,add.citizenship,add.account_type,add.account_number,add.phone_number,add.amt);
-
+		fprintf(ptr,"\nAccount details:%s %d %s %s %s %d %d %f",add.name,add.age,add.address,add.citizenship,add.account_type,add.account_number,add.phone_number,add.amt);
+		fclose(ptr);
 	}
 
 int main(void) {
