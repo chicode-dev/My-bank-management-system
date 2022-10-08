@@ -7,7 +7,6 @@
  Description : Hello World in C, Ansi-style
  ============================================================================
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -47,9 +46,33 @@ struct{
 		fclose(ptr);
 	}
 
+	void close(void){
+		system("clear");
+		printf("bank management system has ended");
+	}
+
+	void menu(void){
+		int choose;
+		system("clear");
+		printf("WELCOME TO THE BANK MANAGEMENT SYSTEM\nPLEASE CHOOSE WHAT YOU WOULD LIKE TO DO:\n");
+		printf("press 1 to add new account\n");
+		printf("press 2 to close program\n");
+		printf("enter value");
+		scanf("%d",&choose);
+		system("clear");
+
+		switch(choose){
+		case 1:new_account();
+		break;
+		case 2:close();
+		break;
+		}
+	}
+
+
 int main(void) {
 
-	new_account();
+	menu();
 //	int i;
 //	struct Accounts no_1;
 //	struct Accounts no_2;
