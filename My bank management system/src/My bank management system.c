@@ -9,7 +9,9 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+int i;
 void menu ();
+void close();
 
 struct date{
 	int day,month,year;
@@ -41,7 +43,7 @@ struct{
 		while(fscanf(ptr,"%d %s %d %d/%d/%d %s %s %d %s %f",&add.account_number,add.name,&add.age,&add.Date_of_birth.day,&add.Date_of_birth.month,
 				&add.Date_of_birth.year,add.citizenship,add.address,&add.phone_number,add.account_type,&add.amt)!=EOF){
 			if(check.account_number == add.account_number){
-				printf("This account already exists");
+				printf("This account already exists\n");
 				goto account_no;
 			}
 		}
@@ -87,8 +89,15 @@ struct{
 
 	}
 
-	void close(void){
-		system("clear");
+	void view_records(){
+		FILE *view;
+
+
+
+	}
+
+	void close(){
+		//system("clear");
 		printf("bank management system has ended");
 	}
 
@@ -111,24 +120,31 @@ struct{
 	}
 
 
+	void password(void){
+
+	}
+
 int main(void) {
 
-	menu();
-//	int i;
-//	struct Accounts no_1;
-//	struct Accounts no_2;
-//	struct Accounts no_3;
-//
-//	printf("enter name: ");
-//	scanf("%[^\n]%*c",no_1.name);
-//	printf("enter age: ");
-//	scanf("%d",&no_1.age);
-//
-//	//strcpy(no_2.name,"Peter john");
-//	//no_2.age = 40;
-//
-//
-//	printf("Account 1 details:%s %d",no_1.name,no_1.age);
+	printf("Welcome to the bank management system\n");
+			password_start:
+			printf("please enter the correct password: \n");
+			int arr[] = {1,2,3,4,5};
+			int arr2[5];
+
+			for(i=0;i<5;i++){
+			scanf("%d",&arr2[i]);
+			}
+			for(i=0;i<5;i++){
+			 if(arr[i] == arr2[i]){
+				 printf("Password successful\n");
+				 menu();
+			 }
+			 else{
+				 printf("Password incorrect please try again\n");
+				 goto password_start;
+			 }
+			}
 
 	return 0;
 }
