@@ -10,7 +10,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 int i;
-void menu ();
+int enter;
+void menu();
 void close();
 
 struct date{
@@ -85,15 +86,39 @@ struct{
 		}
 	}
 
-	void remove_account(void){
-
-	}
-
 	void view_records(){
 		FILE *view;
+		view=fopen("record.txt","r");
+		int rec=0;
 
+		printf("View all records\nAccount number, name, address, phone number\n");
+		while(fscanf(view,"%d %s %d %d/%d/%d %s %s %d %s %f",&add.account_number,add.name,&add.age,&add.Date_of_birth.day,&add.Date_of_birth.month,
+						&add.Date_of_birth.year,add.citizenship,add.address,&add.phone_number,add.account_type,&add.amt)!=EOF)
+		{
+				printf("%d\t%s\t%s\t%d\n",add.account_number,add.name,add.address,add.phone_number);
+				rec++;
+		}
+		fclose(view);
+		if(rec==0){
+			printf("No records available\n");
+			menu();
+		}
+		viewrec:
+		printf("Choose next action:\n1.back to main menu\n2.close program\n");
+		scanf("%d",&enter);
+		if(enter==1){
+			system("clear");
+			menu();
+		}else if(enter == 2){
+			system("clear");
+			close();
+		}else{
+			printf("incorrect input");
+			goto viewrec;
+		}
+		}
 
-
+	void remove_account(void){
 	}
 
 	void close(){
@@ -106,19 +131,21 @@ struct{
 		system("clear");
 		printf("WELCOME TO THE BANK MANAGEMENT SYSTEM\nPLEASE CHOOSE WHAT YOU WOULD LIKE TO DO:\n");
 		printf("press 1 to add new account\n");
-		printf("press 2 to close program\n");
-		printf("enter value");
+		printf("press 2 to view records\n");
+		printf("press 3 to close program\n");
+		printf("enter value: ");
 		scanf("%d",&choose);
 		system("clear");
 
 		switch(choose){
 		case 1:new_account();
 		break;
-		case 2:close();
+		case 2:view_records();
+		break;
+		case 3:close();
 		break;
 		}
 	}
-
 
 	void password(void){
 
