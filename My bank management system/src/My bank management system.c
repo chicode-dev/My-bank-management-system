@@ -9,6 +9,11 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+void menu ();
+
+struct date{
+	int day,month,year;
+};
 
 struct{
    char name[50];
@@ -19,31 +24,67 @@ struct{
    int account_number;
    int phone_number;
    float amt;
-}add;
+   struct date Date_of_birth;
+   struct date Deposit;
+   struct date Withdraw;
+}add,check;
 
 	void new_account(){
 		FILE *ptr;
 		ptr = fopen("record.txt","a+");
 
-		printf("enter name: ");
+		account_no:
+		printf("Enters today date:");
+		scanf("%d/%d/%d",&add.Deposit.day,&add.Deposit.month,&add.Deposit.year);
+		printf("\nenter new account number: ");
+		scanf("%d",&check.account_number);
+		while(fscanf(ptr,"%d %s %d %d/%d/%d %s %s %d %s %f",&add.account_number,add.name,&add.age,&add.Date_of_birth.day,&add.Date_of_birth.month,
+				&add.Date_of_birth.year,add.citizenship,add.address,&add.phone_number,add.account_type,&add.amt)!=EOF){
+			if(check.account_number == add.account_number){
+				printf("This account already exists");
+				goto account_no;
+			}
+		}
+		add.account_number = check.account_number;
+		printf("\nenter name: ");
 		scanf("%s",add.name);
-		printf("enter age: ");
+		printf("\nenter age: ");
 		scanf("%d",&add.age);
-		printf("enter address: ");
-		scanf("%s",add.address);
-		printf("enter citizenship: ");
+		printf("\nenter date of birth: ");
+		scanf("%d/%d/%d",&add.Date_of_birth.day,&add.Date_of_birth.month,&add.Date_of_birth.year);
+		printf("\nenter citizenship: ");
 		scanf("%s",add.citizenship);
-		printf("enter account type: ");
-		scanf("%s",add.account_type);
-		printf("enter account number: ");
-		scanf("%d",&add.account_number);
-		printf("enter phone number: ");
+		printf("\nenter address: ");
+		scanf("%s",add.address);
+		printf("\nenter phone number: ");
 		scanf("%d",&add.phone_number);
-		printf("enter amt: ");
+		printf("\nenter account type: ");
+		scanf("%s",add.account_type);
+		printf("\nenter amount to deposit: ");
 		scanf("%f",&add.amt);
 
-		fprintf(ptr,"\nAccount details:%s %d %s %s %s %d %d %f",add.name,add.age,add.address,add.citizenship,add.account_type,add.account_number,add.phone_number,add.amt);
+		fprintf(ptr,"%d %s %d %d/%d/%d %s %s %d %s %f",add.account_number,add.name,add.age,add.Date_of_birth.day,add.Date_of_birth.month,add.Date_of_birth.year,
+				add.citizenship,add.address,add.phone_number,add.account_type,add.amt);
 		fclose(ptr);
+
+		printf("ACCOUNT SUCCESFULLY CREATED");
+		add_invalid:
+		printf("PICK ACTION\n1.Go to main menu\n2.Close program\n");
+		int pick;
+		scanf("%d",&pick);
+		if(pick == 1){
+			menu();
+		}else if(pick == 2){
+			close();
+		}else{
+			printf("incorrect input please enter correct options:\n");
+			goto add_invalid;
+
+		}
+	}
+
+	void remove_account(void){
+
 	}
 
 	void close(void){

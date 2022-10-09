@@ -1,5 +1,1 @@
 
-Account details:john white 24    0 0 0.000000
-Account details:john white 43    0 0 0.000000
-Account details:chichu 53 villagewalk ngr current -1582182168 2059839687 0.320000
-Account details:chi 0 wayne villagewalk savings -970497403 19411 0.650000
