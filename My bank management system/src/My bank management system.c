@@ -30,7 +30,7 @@ struct{
    struct date Date_of_birth;
    struct date Deposit;
    struct date Withdraw;
-}add,check;
+}add,check,update,delete;
 
 	void new_account(){
 		FILE *ptr;
@@ -118,11 +118,139 @@ struct{
 		}
 		}
 
-	void remove_account(void){
-	}
+	void delete_account(){
+
+		int num2=0;
+		FILE *oldfile,*newfile;
+		oldfile=fopen("record.txt","r");
+		newfile=fopen("new.txt","w");
+
+		printf("Enter the account no. of the customer you want to delete:");
+		scanf("%d",&delete.account_number);
+		    while (fscanf(oldfile,"%d %s %d %d/%d/%d %s %s %d %s %f",&add.account_number,add.name,&add.age,&add.Date_of_birth.day,&add.Date_of_birth.month,
+					&add.Date_of_birth.year,add.citizenship,add.address,&add.phone_number,add.account_type,&add.amt)!=EOF)
+		   {
+		        if(add.account_number != delete.account_number){
+		        	fprintf(newfile,"%d %s %d %d/%d/%d %s %s %d %s %f",add.account_number,add.name,add.age,add.Date_of_birth.day,
+		        	add.Date_of_birth.month,add.Date_of_birth.year,add.citizenship,add.address,add.phone_number,add.account_type,add.amt);}
+		        else
+		            {num2++;
+		            printf("\nAccount deleted successfully\n");
+		            }
+		   }
+		   fclose(oldfile);
+		   fclose(newfile);
+		   remove("record.txt");
+		   rename("new.txt","record.txt");
+		   if(num2==0)
+		   		        {   system("clear");
+		   		            printf("\nRecord not found.");
+		   		            tryagain2:
+		   		            printf("\nEnter option\n0.try again\n1.main menu\n2close program\n");
+		   		            scanf("%d",&enter);
+		   		            system("clear");
+		   		                 if (enter==1){
+		   		                    menu();}
+		   		                else if (enter==2){
+		   		                    close();}
+		   		                else if(enter==0){
+		   		                    delete_account();}
+		   		                else
+		   		                    {printf("Wrong input try again\n");
+		   		                    goto tryagain2;
+		   		                    }
+		   		        }
+		   		    else
+		   		        {printf("Enter option\n1.main menu\n0.close program\n");
+		        scanf("%d",&enter);
+		        system("clear");
+		        if (enter==1){
+		            menu();}
+		        else{
+		            close();}
+		   		        }
+
+		}
+
+	void edit_account(){
+		 int num1,num2=0;
+		 FILE *oldfile,*newfile;
+		 oldfile=fopen("record.txt","r");
+		 newfile=fopen("new.txt","w");
+
+		 printf("\nEnter the account no. of the customer whose info you want to edit:");
+		 scanf("%d",&update.account_number);
+		 while(fscanf(oldfile,"%d %s %d %d/%d/%d %s %s %d %s %f",&add.account_number,add.name,&add.age,&add.Date_of_birth.day,&add.Date_of_birth.month,
+					&add.Date_of_birth.year,add.citizenship,add.address,&add.phone_number,add.account_type,&add.amt)!=EOF)
+		    {
+		        if(add.account_number == update.account_number)
+		        {   num2=1;
+		            printf("\nWhich information do you want to change?\n1.Address\n2.Phone number\n\nEnter your choice:");
+		            scanf("%d",&num1);
+		            system("clear");
+		            if(num1==1)
+		                {printf("Enter the new address:");
+		                scanf("%s",update.address);
+		                fprintf(newfile,"%d %s %d %d/%d/%d %s %s %d %s %f",add.account_number,add.name,add.age,add.Date_of_birth.day,
+		                		add.Date_of_birth.month,add.Date_of_birth.year,
+		        				add.citizenship,update.address,add.phone_number,add.account_type,add.amt);
+		                system("clear");
+		                printf("address updated");
+		                }
+		            else if(num1==2)
+		                {
+		                printf("Enter the new phone number:");
+		                scanf("%d",&update.phone_number);
+		                fprintf(newfile,"%d %s %d %d/%d/%d %s %s %d %s %f",add.account_number,add.name,add.age,add.Date_of_birth.day,
+		                		add.Date_of_birth.month,add.Date_of_birth.year,add.citizenship,add.address,update.phone_number,
+								add.account_type,add.amt);
+		                system("clear");
+		                printf("phone number updated.");
+		                }
+
+		        }
+		        else{
+		            fprintf(newfile,"%d %s %d %d/%d/%d %s %s %d %s %f",add.account_number,add.name,add.age,add.Date_of_birth.day,
+	                		add.Date_of_birth.month,add.Date_of_birth.year,add.citizenship,add.address,add.phone_number,
+							add.account_type,add.amt);}
+		    }
+		    fclose(oldfile);
+		    fclose(newfile);
+		    remove("record.txt");
+		    rename("new.txt","record.txt");
+
+		if(num2!=1)
+		        {   system("clear");
+		            printf("\nRecord not found.");
+		            tryagain:
+		            printf("\nEnter option\n0.try again\n1.main menu\n2close program\n");
+		            scanf("%d",&enter);
+		            system("clear");
+		                 if (enter==1){
+		                    menu();}
+		                else if (enter==2){
+		                    close();}
+		                else if(enter==0){
+		                    edit_account();}
+		                else
+		                    {printf("Wrong input try again\n");
+		                    goto tryagain;
+		                    }
+		        }
+		    else
+		        {printf("Enter option\n1.main menu\n0.close program\n");
+		        scanf("%d",&enter);
+		        system("clear");
+		        if (enter==1){
+		            menu();}
+		        else{
+		            close();}
+		        }
+		}
+
 
 	void close(){
-		//system("clear");
+		system("clear");
 		printf("bank management system has ended");
 	}
 
@@ -132,7 +260,9 @@ struct{
 		printf("WELCOME TO THE BANK MANAGEMENT SYSTEM\nPLEASE CHOOSE WHAT YOU WOULD LIKE TO DO:\n");
 		printf("press 1 to add new account\n");
 		printf("press 2 to view records\n");
-		printf("press 3 to close program\n");
+		printf("press 3 to edit an account\n");
+		printf("press 4 to delete an account\n");
+		printf("press 5 to close program\n");
 		printf("enter value: ");
 		scanf("%d",&choose);
 		system("clear");
@@ -142,13 +272,13 @@ struct{
 		break;
 		case 2:view_records();
 		break;
-		case 3:close();
+		case 3:edit_account();
+		break;
+		case 4:delete_account();
+		break;
+		case 5:close();
 		break;
 		}
-	}
-
-	void password(void){
-
 	}
 
 int main(void) {
