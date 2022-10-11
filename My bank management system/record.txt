@@ -1,0 +1,3 @@
+7658		sarah		hendrick		23		12/24/5647		ngr		jhb		56478		Savings		15000.000000
+8765		yes		nah		18		12/34/9879		amer		ny		87654		Current		98603.000000
+87453		time		hurry		99		98/76/2345		lon		lon		23456		fixed2		9000.000000
