@@ -16,6 +16,14 @@ int enter;
 void menu();
 void close();
 
+float interest(float t,float amount,int rate)
+{
+    float SI;
+    SI=(rate*t*amount)/100.0;
+    return (SI);
+
+}
+
 struct date {
 int day, month, year;
 };
@@ -30,13 +38,16 @@ int account_number;
 int phone_number;
 float amt;
 struct date Date_of_birth;
-struct date Deposit;
+struct date deposit;
 struct date Withdraw;
-} add, check, update, delete, transact;
+} add, check, update, delete, transact, deposit, balance;
 
 void new_account() {
 	FILE *ptr;
 	ptr = fopen("record.txt", "a+");
+
+	printf("\n\n\nEnter today's date(dd/mm/yyyy):");
+	scanf("%d/%d/%d",&add.deposit.day,&add.deposit.month,&add.deposit.year);
 
 	account_no:
 	printf("Enter new account number: ");
@@ -281,6 +292,54 @@ void edit_account() {
 	}
 }
 
+void Balance(){
+	int bal = 0;
+	FILE *ptr;
+	ptr = fopen("record.txt", "r");
+
+	printf("\nEnter the account no.:");
+	scanf("%d", &balance.account_number);
+	while (fscanf(ptr, "%d\t\t%s\t\t%d\t\t%d/%d/%d\t\t%s\t\t%s\t\t%d\t\t%s\t\t%f\n",
+			&add.account_number, add.name, &add.age, &add.Date_of_birth.day,
+			&add.Date_of_birth.month, &add.Date_of_birth.year, add.citizenship,
+			add.address, &add.phone_number, add.account_type, &add.amt) != EOF) {
+		if (add.account_number == transact.account_number) {
+			bal = 1;
+			printf("Your balance is %f",add.amt);
+		}
+	}
+
+	if (bal != 1) {
+			system("clear");
+			printf("\nRecord not found.");
+			tryagainbal:
+			printf("\nEnter option\n0.try again\n1.main menu\n2.close program\n");
+			scanf("%d", &enter);
+			system("clear");
+			if (enter == 1) {
+				menu();
+			} else if (enter == 2) {
+				close();
+			} else if (enter == 0) {
+				Balance();
+			} else {
+				printf("Wrong input try again\n");
+				goto tryagainbal;
+			}
+		} else {
+			printf("Enter option\n1.main menu\n0.close program\n");
+			scanf("%d", &enter);
+			system("clear");
+			if (enter == 1) {
+				menu();
+			} else {
+				close();
+			}
+		}
+
+
+}
+
 void transaction() {
 	int num2 = 0;
 	FILE *oldfile, *newfile;
@@ -343,8 +402,8 @@ void transaction() {
 	if (num2 != 1) {
 		system("clear");
 		printf("\nRecord not found.");
-		tryagain3: printf(
-				"\nEnter option\n0.try again\n1.main menu\n2close program\n");
+		tryagain3:
+		printf("\nEnter option\n0.try again\n1.main menu\n2close program\n");
 		scanf("%d", &enter);
 		system("clear");
 		if (enter == 1) {
@@ -370,9 +429,104 @@ void transaction() {
 
 }
 
-void close() {
+void see(void)
+{
+FILE *ptr;
+int test=0,rate;
+int choice;
+float time;
+float intrst;
+ptr=fopen("record.txt","r");
+printf("Enter the account number:");
+scanf("%d",&check.account_number);
+
+while (fscanf(ptr, "%d\t\t%s\t\t%d\t\t%d/%d/%d\t\t%s\t\t%s\t\t%d\t\t%s\t\t%f\n", &add.account_number,
+add.name, &add.age, &add.Date_of_birth.day,&add.Date_of_birth.month,
+&add.Date_of_birth.year, add.citizenship,add.address, &add.phone_number,
+add.account_type, &add.amt) != EOF)
+{
+if(add.account_number==check.account_number)
+{
+system("clear");
+test=1;
+if(strcmp(add.account_type,"fixed1")==0)
+{
+	time=1.0;
+	rate=9;
+	intrst=interest(time,add.amt,rate);
+	printf("\nYou will get $%.2f as interest on %d/%d/%d",intrst,add.deposit.day,add.deposit.month,add.deposit.year+1);
+}
+else if(strcmp(add.account_type,"fixed2")==0)
+{
+	time=2.0;
+	rate=11;
+	intrst=interest(time,add.amt,rate);
+	printf("\nYou will get $.%.2f as interest on %d/%d/%d",intrst,add.deposit.day,add.deposit.month,add.deposit.year+2);
+
+}
+else if(strcmp(add.account_type,"fixed3")==0)
+{
+	time=3.0;
+	rate=13;
+	intrst=interest(time,add.amt,rate);
+	printf("\nYou will get $.%.2f as interest on %d/%d/%d",intrst,add.deposit.day,add.deposit.month,add.deposit.year+3);
+
+}
+else if(strcmp(add.account_type,"saving")==0)
+{
+	time=(1.0/12.0);
+	rate=8;
+	intrst=interest(time,add.amt,rate);
+	printf("\nYou will get $.%.2f as interest on %d of every month",intrst,add.deposit.day);
+
+ }
+else if(strcmp(add.account_type,"current")==0)
+{
+
+	printf("\nYou will get no interest");
+
+ }}}
+
+
+fclose(ptr);
+if(test!=1)
+{
+system("clear");
+printf("\nRecord not found!!\a\a\a");
+tryagaind: printf("\nEnter option\n0.try again\n1.main menu\n2close program\n");
+	scanf("%d", &enter);
 	system("clear");
-	printf("bank management system has ended");
+	if (enter == 1) {
+		menu();
+	} else if (enter == 2) {
+		close();
+	} else if (enter == 0) {
+		see();
+	} else {
+		printf("Wrong input try again\n");
+		goto tryagaind;
+	}
+}
+else
+{
+add_invalid:
+printf("PICK ACTION\n1.Go to main menu\n2.Close program\n");
+int pick;
+scanf("%d", &pick);
+if (pick == 1){
+menu();
+} else if (pick == 2) {
+close();
+} else {
+printf("incorrect input please enter correct options:\n");
+goto add_invalid;
+}
+}
+}
+
+void close() {
+system("clear");
+printf("bank management system has ended");
 }
 
 void menu(void) {
@@ -413,22 +567,21 @@ break;
 
 int main(void) {
 
-	printf("Welcome to the bank management system\n");
-	password_start:
-	printf("please enter the correct password: \n");
-	int pass = 12345;
-	int pass2;
+printf("Welcome to the bank management system\n");
+password_start:
+printf("please enter the correct password: \n");
+int pass = 12345;
+int pass2;
 
-	scanf("%d", &pass2);
+scanf("%d", &pass2);
 
-		if (pass2 == pass) {
-			printf("Password successful\n");
-			menu();
-		} else {
-			printf("Password incorrect please try again\n");
-			goto password_start;
-		}
+if (pass2 == pass) {
+	printf("Password successful\n");
+	menu();
+} else {
+	printf("Password incorrect please try again\n");
+	goto password_start;
+}
 
-
-	return 0;
+return 0;
 }
